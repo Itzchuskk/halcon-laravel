@@ -27,6 +27,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
 
     // 🔗 Relación con órdenes (según quién la creó, procesó, etc.)
     public function createdOrders()
@@ -47,5 +51,10 @@ class User extends Authenticatable
     public function deliveredOrders()
     {
         return $this->hasMany(Order::class, 'delivered_by');
+    }
+    // Fotos subidas por el usuario
+    public function evidencePhotos()
+    {
+        return $this->hasMany(EvidencePhoto::class);
     }
 }
